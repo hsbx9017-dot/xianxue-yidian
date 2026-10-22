@@ -1,16 +1,18 @@
 {
   "version": 1,
   "sourceHashes": {
-    "app/learning-app.tsx": "d3e15f518ed292d545162648fa787cef07df01e8b36ab2fcb63c2121825bf166",
-    "app/style.css": "1e27429034a922c0489966f9b144c8ca0feeae32620201e8e6c4be7aa001e037",
-    "lib/planner.ts": "93391c3736a5b691614f29ef3cf204e3bec2ff6551e14620048baba61c3ee9f6",
-    "lib/ai-plan.ts": "184892777ebf0ea400038d5db21e61711cd2b10e3d8e88fc7d7dcfc7411e2474",
+    "app/learning-app.tsx": "579a12b898c1278f0fd61bda288bb11ce08503cd49ca3b7d556c35e5824624c6",
+    "app/style.css": "4bd7b74fd0faa6138052acb7863f1ec26d43be76499edea0177f8c2331c5963e",
+    "app/progress.tsx": "651463f4da042f0575e08e1b8fd88cc0f6910763e3f168440cfa909aa1e28c0e",
+    "lib/history.ts": "624dfb25a0e8561a252facf176a3146867eddaef7f09ff011023e218dc0a2944",
+    "lib/planner.ts": "a1fc200572ddc68bea743eb2ba1c7807f74af5900ec2efcbd627c0d2314e0d0b",
+    "lib/ai-plan.ts": "13a9464a90482f8e09587bd4e307131c35e02dd1e8d5117284fbfb92d25168f6",
     "lib/feedback.ts": "560873bfbcbb4b8c66f6473a5f61f059f0311ad87ceb028c0f9d9cbcab504e30",
     "lib/feedback-config.ts": "3386fe1979c41824e2cdee17efc8db96e73f2e661ac70df5ddce77418d16ae7e",
     "main.tsx": "3cfc20f62aa679870b279e842edea8883ff591129645df25587b3b7cf3e2c896",
     "index.html": "3e2d684f13dc3a3376e2193d93b37c092117cbd2a5d24b2a5a9aed23907f7acd",
     "vite.config.ts": "b9134ddfbe23ad13df13c456b8c605ed6cd9bdcebefe1c98b5600e812ad3e29b",
-    "package.json": "e1edc6a218f5ff6d3b33ce60770c55b6f587da8d33aa5c11ec90178a5bd3df9b",
+    "package.json": "c6b5c81d8964a3efa613c129637f6a14fb806c7e14fe487e08b883c9897fcfa3",
     "package-lock.json": "0ec887adb36180de71701c8d2b0fcb2167ed536d67f8fe29ce48942a8169db3c",
     "tsconfig.json": "9e91c8dd26bbee1838c53dcbe2cebf0ce21cacee4c95a56b1a37087723467950"
   }

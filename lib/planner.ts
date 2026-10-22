@@ -1,5 +1,5 @@
 export type Subject = 'english' | 'math' | 'python' | 'other';
-export type Profile = { route: 'clear' | 'explore'; subject: Subject; goal: string; level: 'start' | 'some' | 'practice'; motivation: string; minutes: number; blocked: number[]; obstacle: string; notes: string; startDate: string; mathBook?:string; mathUnit?:'unknown'|'limits'|'derivative'|'integral'|'custom'; chapter?:string; englishSkill?:'reading'|'listening'|'speaking'; material?:string; pythonDevice?:'computer'|'browser' };
+export type Profile = { route: 'clear' | 'explore'; subject: Subject; goal: string; level: 'start' | 'some' | 'practice'; motivation: string; minutes: number; blocked: number[]; obstacle: string; notes: string; startDate: string; mathBook?:string; mathUnit?:'unknown'|'limits'|'derivative'|'integral'|'custom'; chapter?:string; englishSkill?:'reading'|'listening'|'speaking'; material?:string; pythonDevice?:'computer'|'browser'; durationWeeks?:number; targetDate?:string; programStart?:string; weekIndex?:number; weeklyFocus?:string; lastReview?:string };
 export type Day = { id: number; date: string; weekday: string; minutes: number; focus: string; tasks: { text: string; minutes: number }[]; done: boolean; rest: boolean };
 export type Resource={title:string;url?:string;role:string;how:string;access:string;checkedAt?:string};
 export type Plan = { title: string; summary: string; why: string; days: Day[]; tradeoff: string; source: 'demo' | 'deepseek'; createdAt: string; resources?:Resource[]; preparation?:string[]; materialSummary?:string; checkpoints?:string[] };
@@ -7,6 +7,14 @@ export const subjectNames: Record<Subject, string> = { english: '英语', math: 
 export const mathUnits={unknown:'还没确定范围',limits:'极限与连续',derivative:'导数与微分',integral:'一元积分',custom:'其他章节（自己填写）'};
 export const defaultProfile: Profile = { route: 'clear', subject: 'english', goal: '', level: 'some', motivation: 'steady', minutes: 25, blocked: [], obstacle: 'start', notes: '', startDate: '',mathBook:'',mathUnit:'unknown',chapter:'',englishSkill:'reading',material:'',pythonDevice:'computer' };
 export function localDate(d = new Date()) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+export function validDate(s:string){if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return false;const d=new Date(s+'T12:00:00');return !Number.isNaN(d.valueOf())&&localDate(d)===s}
+export function addDays(s:string,n:number){const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+n);return localDate(d)}
+export function periodEnd(p:Profile){return p.targetDate||addDays(p.programStart||p.startDate,(p.durationWeeks||1)*7-1)}
+export function programWeeks(p:Profile){return Math.max(1,Math.ceil(((Date.parse(periodEnd(p)+'T12:00:00Z')-Date.parse((p.programStart||p.startDate)+'T12:00:00Z'))/86400000+1)/7))}
+export function roadmap(p:Profile){
+ const weeks=programWeeks(p),focus=p.weeklyFocus?.trim()||p.chapter?.trim()||p.goal.trim()||subjectNames[p.subject];
+ return Array.from({length:weeks},(_,i)=>{const ratio=(i+1)/weeks;return {week:i+1,start:addDays(p.programStart||p.startDate,i*7),end:[addDays(p.programStart||p.startDate,i*7+6),periodEnd(p)].sort()[0],title:i===0?'确认起点，跑通一个学习循环':i===weeks-1?'独立检查，整理成果和下一步':ratio<=.45?'巩固基础，处理反复出现的卡点':ratio<=.8?'迁移应用，做小成果':'复习和独立检验',result:i===0?`围绕“${focus}”留下第一份练习记录`:i===weeks-1?'用独立完成的题目、表达或程序对照目标，不只看打卡数':'本周复盘后确定具体范围和一份可检查的成果'};});
+}
 const topics = {
  english: [ ['先知道从哪开始','从现有教材或常用文章选一小段，标记不认识的词','查懂最影响理解的3个词，回到原句读一遍','用自己的话说出这段主要讲什么'], ['让词汇有上下文','回看昨天的3个词，不看释义尝试回忆','读一小段同难度材料，选3个常见表达造句','留下最想再次使用的一句'], ['听懂一小段就好','选有原文的短音频，先完整听一次','对照文本听最难的一两句，再不看文本听','记录听不懂的原因：词、连读还是语速'], ['把学过的用出来','回忆前三天一个有用表达','用3—5句话描述今天，允许查词','选一句录音或写下，检查是否表达清楚'], ['练习真正需要的内容','选一段与自己目标有关的课文或资料','尝试独立理解，再查证关键表达','记下一个已经能独立完成的动作'], ['解决一处卡点','回看前几天的记录，选最常遇到的一个问题','用一个更简单的例子针对练习','比较练习前后的区别，不追求一次全会'], ['看看这一周留下了什么','不看笔记复述本周学到的表达','重做第一天的一小段任务，比较变化','保留有效做法，删掉一项不适合自己的安排'] ],
  math: [ ['先找到一个具体卡点','打开自己的教材或作业，选一道最近不会的题','标出题目已知量、要求和不懂的概念','只补一个相关定义，尝试说出第一步'], ['看懂一道，再独立做一道','回看昨天卡住的概念和一道例题','合上例题，独立写出同类题的关键步骤','对照答案，记录第一个不同的步骤'], ['把公式和条件连起来','选本周课程的一个公式，写出适用条件','做一道基础题，逐步说明为什么能用它','检查是否遗漏定义域、条件或运算步骤'], ['把错误缩小到一步','挑一道做错的题，先不看完整解答','定位是概念、方法选择还是计算错误','只改这一处，再重做关键步骤'], ['开始一点迁移','选一道与例题略有不同的题','先列可能方法，再选一种尝试','卡住时只看一条提示，再自己往下做'], ['留出补漏空间','回看本周仍不清楚的一个问题','用教材、课程资料或老师的解答核对','独立写一份能看懂的简短解题过程'], ['用一次小检查结束这周','选两道本周接触过的基础题独立尝试','对照自己的记录，找出能独立完成的部分','确定下一周优先补的一个概念'] ],
@@ -19,15 +27,16 @@ export function makePlan(p: Profile): Plan {
  let session = 0;
  const days: Day[] = Array.from({length:7},(_,id)=>{
   const date=new Date(start); date.setDate(start.getDate()+id);
-  const rest=p.blocked.includes(date.getDay());
+  const outside=!!p.targetDate&&localDate(date)>p.targetDate;
+  const rest=outside||p.blocked.includes(date.getDay());
   const topic=selectedTopics[Math.min(session,6)];
   if(!rest)session++;
   const a=Math.max(1,Math.round(budget*.2)), b=Math.max(1,Math.round(budget*.6));
-  return {id,date:localDate(date),weekday:['周日','周一','周二','周三','周四','周五','周六'][date.getDay()], minutes:rest?0:budget,focus:rest?'留白日 · 不安排任务':topic[0],tasks:rest?[]:[{text:topic[1],minutes:a},{text:topic[2],minutes:b},{text:topic[3],minutes:budget-a-b}],done:false,rest};
+  return {id,date:localDate(date),weekday:['周日','周一','周二','周三','周四','周五','周六'][date.getDay()], minutes:rest?0:budget,focus:outside?'目标周期之外 · 不安排任务':rest?'留白日 · 不安排任务':topic[0],tasks:rest?[]:[{text:topic[1],minutes:a},{text:topic[2],minutes:b},{text:topic[3],minutes:budget-a-b}],done:false,rest};
  });
- return { title:p.goal.trim()||`${subjectNames[p.subject]}，先开始一周`, summary:`这周安排 ${session} 次学习，每次最多 ${budget} 分钟。${p.subject==='python'?'先做出能运行的小程序，不要求一周学完整门课。':'每次留下可核对的结果，做不完就缩小范围。'}`, why:`按你给出的时间上限安排，保留 ${7-session} 天空白。${p.level==='start'?'从简单例子开始。':'先独立尝试，再查资料。'}${p.subject==='math'?'规则版按你选择的知识范围安排；自填章节不会被自动理解，教材题号由你核对。':p.subject==='python'?'规则版是 Python 入门起步路径；已有基础者可使用 AI 按具体目标重排。':p.subject==='english'?'A1/A2 只是试学起点，不是对你水平的评定；过易或过难可调整。':''}`, days, tradeoff:`${session<5?'可用次数较少，先完成一个小循环。':'这是第一周试行安排。'}准备材料、安装和排错也占当天时间；到点就停，把卡点记下来，下一次接着做。规则版不保证完成整章、整门课程或考试目标。`,...learningMaterials(p),source:'demo',createdAt:new Date().toISOString() };
+ return { title:(p.goal.trim()||`${subjectNames[p.subject]}，先开始一周`)+((p.weekIndex||0)>0?` · 第${(p.weekIndex||0)+1}周`:``), summary:`这周安排 ${session} 次学习，每次最多 ${budget} 分钟。${p.subject==='python'?'先做出能运行的小程序，不要求一周学完整门课。':'每次留下可核对的结果，做不完就缩小范围。'}`, why:`按你给出的时间上限安排，保留 ${7-session} 天空白。${p.level==='start'?'从简单例子开始。':'先独立尝试，再查资料。'}${p.subject==='math'?'规则版按你选择的知识范围安排；自填章节不会被自动理解，教材题号由你核对。':p.subject==='python'?'规则版是 Python 入门起步路径；已有基础者可使用 AI 按具体目标重排。':p.subject==='english'?'A1/A2 只是试学起点，不是对你水平的评定；过易或过难可调整。':''}`, days, tradeoff:`${session<5?'可用次数较少，先完成一个小循环。':((p.weekIndex||0)>0?'本周根据复盘继续推进，不自动加量。':'这是第一周试行安排。')}准备材料、安装和排错也占当天时间；到点就停，把卡点记下来，下一次接着做。规则版不保证完成整章、整门课程或考试目标。`,...learningMaterials(p),source:'demo',createdAt:new Date().toISOString() };
 }
-export function planMarkdown(plan:Plan,p:Profile){return `# ${plan.title}\n\n${plan.summary}\n\n生成方式：${plan.source==='deepseek'?'DeepSeek':'规则体验版（非AI生成）'}\n\n## 材料与起点\n${plan.materialSummary||'原计划未记录材料，可修改情况后重新生成。'}\n\n${(plan.preparation||[]).map(s=>'- '+s).join('\n')}\n\n${(plan.resources||[]).map(r=>`### ${r.title}\n${r.role}\n${r.url?`入口：${r.url}\n`:''}用法：${r.how}\n访问说明：${r.access}${r.checkedAt?`\n来源核对：${r.checkedAt}`:''}`).join('\n\n')}\n\n## 为什么这样安排\n${plan.why}\n\n${plan.days.map(d=>`## ${d.date} ${d.weekday} · ${d.minutes}分钟\n${d.focus}\n${d.tasks.map((t,i)=>`- ${['准备','动手','检查'][i]}：${t.text}（${t.minutes}分钟）`).join('\n')}`).join('\n\n')}\n\n## 本周怎样算有进展\n${(plan.checkpoints||[]).map(s=>'- '+s).join('\n')}\n\n## 取舍与边界\n${plan.tradeoff}\n\n个人补充：${p.notes||'无'}\n`}
+export function planMarkdown(plan:Plan,p:Profile){return `# ${plan.title}\n\n${plan.summary}\n\n生成方式：${plan.source==='deepseek'?'DeepSeek':'规则体验版（非AI生成）'}\n\n## 目标周期与进度\n${p.programStart||p.startDate} → ${periodEnd(p)}；当前第${(p.weekIndex||0)+1}周。\n${p.weeklyFocus?`本周重点：${p.weeklyFocus}\n`:''}${p.lastReview?`上周复盘：${p.lastReview}\n`:''}\n${roadmap(p).map(w=>`- 第${w.week}周（${w.start}—${w.end}）：${w.title}；${w.result}`).join('\n')}\n\n## 材料与起点\n${plan.materialSummary||'原计划未记录材料，可修改情况后重新生成。'}\n\n${(plan.preparation||[]).map(s=>'- '+s).join('\n')}\n\n${(plan.resources||[]).map(r=>`### ${r.title}\n${r.role}\n${r.url?`入口：${r.url}\n`:''}用法：${r.how}\n访问说明：${r.access}${r.checkedAt?`\n来源核对：${r.checkedAt}`:''}`).join('\n\n')}\n\n## 为什么这样安排\n${plan.why}\n\n${plan.days.map(d=>`## ${d.date} ${d.weekday} · ${d.minutes}分钟\n${d.focus}\n${d.tasks.map((t,i)=>`- ${['准备','动手','检查'][i]}：${t.text}（${t.minutes}分钟）`).join('\n')}`).join('\n\n')}\n\n## 本周怎样算有进展\n${(plan.checkpoints||[]).map(s=>'- '+s).join('\n')}\n\n## 取舍与边界\n${plan.tradeoff}\n\n个人补充：${p.notes||'无'}\n`}
 
 const checkedAt='2026-10-22';
 export function learningMaterials(p:Profile):Pick<Plan,'resources'|'preparation'|'materialSummary'|'checkpoints'>{
@@ -54,6 +63,28 @@ export function learningMaterials(p:Profile):Pick<Plan,'resources'|'preparation'
 }
 
 function detailedTopics(p:Profile):string[][]{
+ if((p.weekIndex||0)>0){
+  const focus=p.weeklyFocus?.trim()||p.chapter?.trim()||'上周仍未独立完成的部分';
+  if(p.subject==='python'&&/for|循环/i.test(focus))return [
+   ['接着卡点练循环','打开上次运行工具，先预测range(3)会产生几个数字','输入 for i in range(3):，下一行缩进写 print(i)；运行后把3改成2再试','第一次应输出0、1、2，第二次0、1；写下range末端为什么没有包含进去'],
+   ['起点和终点','先预测range(1,4)会输出什么','运行 for n in range(1,4):，下一行缩进写 print(n)','核对1、2、3；改成range(2,5)再预测与核对'],
+   ['循环里的计算','先手算1²、2²、3²','运行 for n in range(1,4):，下一行缩进写 print(n*n)','核对1、4、9；记录循环变量在每次执行时的值'],
+   ['只改一处排错','打开上次循环，检查冒号和缩进位置','把print语句放到循环体内运行，再去掉缩进运行，比较结果','体内逐次输出，体外只在循环后执行一次；保存两个版本并注明差别'],
+   ['让循环做真实小任务','准备打印第1天到第3天的学习提示','运行 for day in range(1,4):，下一行缩进写 print("学习日",day)','应出现学习日1到3；把4改成6，先预测再运行'],
+   ['盖住例子独立做','遮住旧代码，目标是打印2、3、4','独立写一个for循环实现；卡住只查range起止的用法','核对恰好三次输出；记录自己是否仍需要查例子'],
+   ['用新数据检查掌握程度','先不用笔记，写出打印1到4的循环','改成打印每个数的两倍，运行前先写下预计输出','核对2、4、6、8；仍不稳就继续练循环，不添加额外知识']
+  ];
+  const action=p.subject==='python'?`打开上周已保存的代码，另存为week${(p.weekIndex||0)+1}.py；改1个数值或字符串，先预测输出再运行核对`:p.subject==='math'?'从所选教材范围取1道基础题，记录真实题号，独立写出方法与第一步':'从已有主材料选未做过的一课；读1小段或听1小段，只查1—3个关键表达，再做1—3道理解题并核对原文';
+  return [
+   [`第${(p.weekIndex||0)+1}周 · 接着上次的卡点`,`回看上周复盘，打开已有材料，定位“${focus}”`,action,'保存今天的结果，注明独立完成和仍需帮助的部分；不把旧完成标记带到新周'],
+   ['巩固一个动作',`回看昨天的结果，选“${focus}”中最不稳的一步`,action,'对照可信答案、原文或运行输出，只记录第一处差异'],
+   ['换个例子再试',`围绕“${focus}”换一道同类题、一段材料或一组数据`,action,'写出哪些步骤可以沿用，哪些条件发生了变化'],
+   ['有针对性地补漏','从前三次记录选一个反复出现的卡点','回到教材定义、课程对应小节或原文，只补这一处；时间短就只核对一句或一步','不用整段照抄解答，自己写一份能理解的修正记录'],
+   ['做出本周的小成果',`把“${focus}”缩成今天能独立完成的一小块`,action,'保存题解、短文或程序；未完成也注明停在哪一步'],
+   ['独立检验一次','遮住本周笔记，先写下自己的思路',action,'比较本周初次结果和现在需要的帮助，不以重复记住答案代替掌握'],
+   ['复盘，决定再前进一步','打开本周留下的结果和完成记录','写下一个已会的动作、一个卡点、下周真实可用时间','在“复盘并安排下一周”中填写结果；仍不稳就继续巩固，不自动升级难度']
+  ];
+ }
  if(p.subject==='python'&&p.minutes<=10)return [
   ['先跑通一行','打开本页运行工具，不同时安装其他软件','输入并运行 print(2+3)；工具未就绪就先只完成打开工具','核对输出5，复制这一行到笔记；到点停止安装或排错'],
   ['让文字出现在屏幕上','打开上次工具和笔记','输入并运行 print("今天先学一点")，再换成自己的短句','核对屏幕文字和引号内相同，保存这一行'],
