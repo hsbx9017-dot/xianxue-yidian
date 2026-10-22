@@ -4,7 +4,7 @@ import ts from 'typescript';
 const compile = file => 'data:text/javascript;base64,'+Buffer.from(ts.transpile(readFileSync(new URL(file,import.meta.url),'utf8'),{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022})).toString('base64');
 const {defaultProfile,makePlan,planMarkdown} = await import(compile('../lib/planner.ts'));
 let checked=0;
-for(const subject of ['english','math','other'])for(const minutes of [5,10,15,25,60,90])for(let mask=0;mask<127;mask++){
+for(const subject of ['english','math','python','other'])for(const minutes of [5,10,15,25,60,90])for(let mask=0;mask<127;mask++){
  const blocked=Array.from({length:7},(_,i)=>i).filter(i=>mask&(1<<i));
  const p={...defaultProfile,subject,minutes,blocked,startDate:'2026-10-22'};
  const plan=makePlan(p);assert.equal(plan.days.length,7);assert.equal(new Set(plan.days.map(d=>d.date)).size,7);

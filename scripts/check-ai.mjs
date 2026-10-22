@@ -10,6 +10,8 @@ const p={...defaultProfile,startDate:'2026-10-22',blocked:[0,6],minutes:15};
 const baseline=makePlan(p),visitorKey='sk-test-not-a-real-key-123456789';
 const output={summary:'每天一点',why:'根据真实时间安排',tradeoff:'先覆盖少量内容',days:baseline.days.filter(d=>!d.rest).map(d=>({id:d.id,focus:'做一道具体题',tasks:['读题','独立尝试','核对并记录']}))};
 const plan=validateAIPlan(baseline,output);assert.equal(plan.source,'deepseek');
+assert.deepEqual(plan.resources,baseline.resources);assert.deepEqual(plan.preparation,baseline.preparation);
+assert.throws(()=>validateAIPlan(baseline,{...output,why:'请打开 https://invented.invalid/course'}),/unverified link/);
 for(const d of plan.days){assert.equal(d.minutes,d.rest?0:15);assert.equal(d.tasks.reduce((s,t)=>s+t.minutes,0),d.minutes)}
 assert.throws(()=>validateAIPlan(baseline,{...output,days:[]}));
 assert.throws(()=>validateAIPlan(baseline,{...output,days:output.days.map(d=>({...d,id:0}))}));
