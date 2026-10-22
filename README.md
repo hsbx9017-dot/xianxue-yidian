@@ -32,7 +32,7 @@ npm test
 npm run build
 ```
 
-GitHub仓库的 Settings → Pages → Build and deployment 选择 GitHub Actions。推送至main后，工作流会检查、构建并部署dist。
+完成测试与构建后运行 `node scripts/prepare-pages.mjs`，将静态产物和源码指纹保存到 `docs/`，并一同提交。GitHub仓库的 Settings → Pages → Build and deployment 选择 GitHub Actions。推送至main后，工作流会校验源码与产物的一致性并部署 `docs/`，发布阶段无需重新安装npm依赖。
 
 `base: './'` 适配项目仓库的子路径。页面不依赖路由重写或原Sites域名。
 
