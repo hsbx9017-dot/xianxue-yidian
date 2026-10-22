@@ -2,7 +2,7 @@ import {cpSync,existsSync,mkdirSync,readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {resolve} from 'node:path';
 const root=resolve(new URL('..',import.meta.url).pathname.replace(/^\/(?:([A-Za-z]:))/, '$1'));
-const files=['app/learning-app.tsx','app/style.css','lib/planner.ts','lib/ai-plan.ts','main.tsx','index.html','vite.config.ts','package.json','package-lock.json','tsconfig.json'];
+const files=['app/learning-app.tsx','app/style.css','lib/planner.ts','lib/ai-plan.ts','lib/feedback.ts','lib/feedback-config.ts','main.tsx','index.html','vite.config.ts','package.json','package-lock.json','tsconfig.json'];
 if(!existsSync('dist/index.html'))throw new Error('Run the verified build before preparing Pages.');
 mkdirSync('docs',{recursive:true});cpSync('dist','docs',{recursive:true});writeFileSync('docs/.nojekyll','');
 const hashes=Object.fromEntries(files.map(f=>[f,createHash('sha256').update(readFileSync(f,'utf8').replace(/\r\n/g,'\n')).digest('hex')]));

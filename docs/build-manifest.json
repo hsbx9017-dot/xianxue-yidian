@@ -1,14 +1,16 @@
 {
   "version": 1,
   "sourceHashes": {
-    "app/learning-app.tsx": "f06f8abdac690335d7f29bdd750b72fad5570780e852006abac04d53e963d8a3",
-    "app/style.css": "3b687ca0576a4af28d1b13ec7f0a232a3d631d707f71327efec9fdd22b976c2d",
+    "app/learning-app.tsx": "293787e2eb842b1b463e8f38d9d9cd72272b8108601d29d282d9d9447fad9431",
+    "app/style.css": "cf972dd835d2421e995c10da160d72aee928c7f381e00bd8e50f74c370c5d8aa",
     "lib/planner.ts": "1208287389a6d973e606d20cbbee66ec0a9e1bb12820411979cd07d3cc193128",
     "lib/ai-plan.ts": "91457aedc28e014da23a68ea6e3100b2c7d13ee0b8c88171d0231e6a30f4546d",
+    "lib/feedback.ts": "560873bfbcbb4b8c66f6473a5f61f059f0311ad87ceb028c0f9d9cbcab504e30",
+    "lib/feedback-config.ts": "3386fe1979c41824e2cdee17efc8db96e73f2e661ac70df5ddce77418d16ae7e",
     "main.tsx": "3cfc20f62aa679870b279e842edea8883ff591129645df25587b3b7cf3e2c896",
     "index.html": "3e2d684f13dc3a3376e2193d93b37c092117cbd2a5d24b2a5a9aed23907f7acd",
     "vite.config.ts": "b9134ddfbe23ad13df13c456b8c605ed6cd9bdcebefe1c98b5600e812ad3e29b",
-    "package.json": "db10adab704aaef62910045ec1a4a5161ab7378abd081f49b70b2a75bdb292b2",
+    "package.json": "304d1c05d0b5f07f560d632be3abdd41691f932895c27e14a7973697ceaa384a",
     "package-lock.json": "0ec887adb36180de71701c8d2b0fcb2167ed536d67f8fe29ce48942a8169db3c",
     "tsconfig.json": "9e91c8dd26bbee1838c53dcbe2cebf0ce21cacee4c95a56b1a37087723467950"
   }
