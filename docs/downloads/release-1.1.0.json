@@ -1,0 +1,13 @@
+{
+  "appId": "com.xianxue.yidian",
+  "version": "1.1.0",
+  "versionCode": 110,
+  "minSdk": 24,
+  "file": "xianxue-yidian-1.1.0.apk",
+  "sizeBytes": 3426791,
+  "sha256": "09849ec0882f9b57549f09030c8e347857ed886d9b0896684428052227b28cc6",
+  "signerSha256": "dedd24bb6089def3ba2f6c28f483ab61c782cbfd323dd1a205f70b5814932490",
+  "sourceCommit": "06a78ba28ef01c54106093aa9d02516d0e640869",
+  "buildRun": "https://github.com/hsbx9017-dot/xianxue-yidian/actions/runs/40323222778",
+  "verification": "Signed release APK built and verified by apksigner. All bundled public files match the checked local production build after text line-ending normalization. Redmi install and notification delivery require device testing."
+}
