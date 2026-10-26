@@ -1,19 +1,24 @@
 {
   "version": 1,
   "sourceHashes": {
-    "app/learning-app.tsx": "579a12b898c1278f0fd61bda288bb11ce08503cd49ca3b7d556c35e5824624c6",
+    "app/learning-app.tsx": "51499bb46bab9207f5577a5898c7c955d1f2f0912f7b31d963a023ee7fc3d52b",
     "app/style.css": "4bd7b74fd0faa6138052acb7863f1ec26d43be76499edea0177f8c2331c5963e",
-    "app/progress.tsx": "651463f4da042f0575e08e1b8fd88cc0f6910763e3f168440cfa909aa1e28c0e",
-    "lib/history.ts": "624dfb25a0e8561a252facf176a3146867eddaef7f09ff011023e218dc0a2944",
-    "lib/planner.ts": "a1fc200572ddc68bea743eb2ba1c7807f74af5900ec2efcbd627c0d2314e0d0b",
-    "lib/ai-plan.ts": "13a9464a90482f8e09587bd4e307131c35e02dd1e8d5117284fbfb92d25168f6",
+    "app/progress.tsx": "24a5411a06863acade97a497918fd4f313cfad16145643a7da7db6104b3937b1",
+    "app/day-coach.tsx": "a013a7295830e6af36563d3a42ce69c4a85a03a95568df2110fe37a68ea74ffd",
+    "app/mobile.tsx": "875b764af50bf3f8546e4078d24642475f558e6e7a9f29933b8e2ac8346a91ad",
+    "app/mobile.css": "512c23aae84d453e3c6d05b051e251c059e678a75c81e470609e6a0c414f91a8",
+    "lib/daily.ts": "b89cf6d54ed8f01de37b8188c71058f977f1263be65acf90b9cfff6839d6a808",
+    "lib/device.ts": "fed983ee2d16a0af68a9ebacbd2dc29fa994212a65855028bb029e9d2fca5e13",
+    "lib/history.ts": "2f7abe33f72d31af1a08e7d09d042c9f045193799b64f44ba5e1d6e5cbd0d9d4",
+    "lib/planner.ts": "3064309c50446b7046897662fbc11f978c215caa4ee2fb4d40f839f644fd1e47",
+    "lib/ai-plan.ts": "9df1849c2472ac553f651ab1c89eac4d8e62c2be0a84f2faee533e5eb51eb2ce",
     "lib/feedback.ts": "560873bfbcbb4b8c66f6473a5f61f059f0311ad87ceb028c0f9d9cbcab504e30",
     "lib/feedback-config.ts": "3386fe1979c41824e2cdee17efc8db96e73f2e661ac70df5ddce77418d16ae7e",
-    "main.tsx": "3cfc20f62aa679870b279e842edea8883ff591129645df25587b3b7cf3e2c896",
+    "main.tsx": "953c2c8fa28a197be113841e209644d462c577a82a978b35cccd4d31f98cf718",
     "index.html": "3e2d684f13dc3a3376e2193d93b37c092117cbd2a5d24b2a5a9aed23907f7acd",
     "vite.config.ts": "b9134ddfbe23ad13df13c456b8c605ed6cd9bdcebefe1c98b5600e812ad3e29b",
-    "package.json": "c6b5c81d8964a3efa613c129637f6a14fb806c7e14fe487e08b883c9897fcfa3",
-    "package-lock.json": "0ec887adb36180de71701c8d2b0fcb2167ed536d67f8fe29ce48942a8169db3c",
+    "package.json": "284dd28e9c6432e7001e9a93b4bcb97ac583811d165f24476b0b40dab61ffbe6",
+    "package-lock.json": "5f618d2b05e8e8708a03fe8e7e2e0196a5d29115acd22e42b8c6e5f74ba72c2a",
     "tsconfig.json": "9e91c8dd26bbee1838c53dcbe2cebf0ce21cacee4c95a56b1a37087723467950"
   }
 }

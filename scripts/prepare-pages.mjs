@@ -2,7 +2,7 @@ import {cpSync,existsSync,mkdirSync,readFileSync,writeFileSync,readdirSync,unlin
 import {createHash} from 'node:crypto';
 import {resolve,join,sep} from 'node:path';
 const root=resolve(new URL('..',import.meta.url).pathname.replace(/^\/(?:([A-Za-z]:))/, '$1'));
-const files=['app/learning-app.tsx','app/style.css','app/progress.tsx','lib/history.ts','lib/planner.ts','lib/ai-plan.ts','lib/feedback.ts','lib/feedback-config.ts','main.tsx','index.html','vite.config.ts','package.json','package-lock.json','tsconfig.json'];
+const files=['app/learning-app.tsx','app/style.css','app/progress.tsx','app/day-coach.tsx','app/mobile.tsx','app/mobile.css','lib/daily.ts','lib/device.ts','lib/history.ts','lib/planner.ts','lib/ai-plan.ts','lib/feedback.ts','lib/feedback-config.ts','main.tsx','index.html','vite.config.ts','package.json','package-lock.json','tsconfig.json'];
 if(!existsSync('dist/index.html'))throw new Error('Run the verified build before preparing Pages.');
 mkdirSync('docs',{recursive:true});cpSync('dist','docs',{recursive:true});writeFileSync('docs/.nojekyll','');
 // Vite uses content hashes. Retire superseded entry bundles after copying the new build.

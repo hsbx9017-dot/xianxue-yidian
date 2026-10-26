@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import {pathToFileURL} from 'node:url';
+import {resolve} from 'node:path';
+import ts from 'typescript';
+mkdirSync('outputs/device-tests',{recursive:true});const file=resolve('outputs/device-tests/device.mjs');writeFileSync(file,ts.transpile(readFileSync('lib/device.ts','utf8'),{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}));
+const {cleanReminder,reminderNotification,reminderState,enableReminder,testReminder,DAILY_ID,TEST_ID}=await import(pathToFileURL(file).href);
+assert.deepEqual(cleanReminder({}),{enabled:false,time:'08:00'});assert.deepEqual(cleanReminder({enabled:true,time:'24:00'}),{enabled:true,time:'08:00'});
+const schedule=reminderNotification('08:00',true);assert.equal(schedule.id,DAILY_ID);assert.notEqual(DAILY_ID,TEST_ID);assert.deepEqual(schedule.schedule.on,{hour:8,minute:0,second:0});assert.equal(schedule.schedule.repeats,true);assert.equal(schedule.schedule.allowWhileIdle,true);assert.equal(schedule.isExactNotification,true);assert.equal(reminderNotification('21:45',false).isExactNotification,false);assert.throws(()=>reminderNotification('25:00',true));
+assert.equal((await reminderState()).native,false);await assert.rejects(enableReminder('08:00'),/安卓 App/);await assert.rejects(testReminder(),/安卓 App/);
+assert.ok(!JSON.stringify(schedule).includes('apiKey'));assert.ok(!JSON.stringify(schedule).includes('supabase'));
+console.log('Device checks passed: default 08:00, valid local daily schedule, distinct test/daily IDs, explicit exact-alarm mode and no pretend background notifications in web mode.');

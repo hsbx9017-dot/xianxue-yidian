@@ -1,10 +1,38 @@
 {
   "name": "xianxue-yidian",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
-  "engines": {"node": ">=22.13.0"},
-  "scripts": {"dev":"vite --host 127.0.0.1", "build":"tsc --noEmit && vite build", "preview":"vite preview --host 127.0.0.1", "test":"node scripts/check-planner.mjs && node scripts/check-ai.mjs && node scripts/check-materials.mjs && node scripts/check-history.mjs && node scripts/check-feedback.mjs", "test:feedback-db":"node scripts/check-feedback-db.mjs", "admin":"node scripts/feedback-admin.mjs", "pages:prepare":"node scripts/prepare-pages.mjs"},
-  "dependencies": {"react":"19.2.6","react-dom":"19.2.6"},
-  "devDependencies": {"@types/react":"19.2.14","@types/react-dom":"19.2.3","@types/node":"22.19.19","@vitejs/plugin-react":"6.0.2","typescript":"5.9.3","vite":"8.0.13"}
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node scripts/check-planner.mjs && node scripts/check-ai.mjs && node scripts/check-materials.mjs && node scripts/check-history.mjs && node scripts/check-feedback.mjs && node scripts/check-daily.mjs && node scripts/check-device.mjs",
+    "test:feedback-db": "node scripts/check-feedback-db.mjs",
+    "admin": "node scripts/feedback-admin.mjs",
+    "pages:prepare": "node scripts/prepare-pages.mjs",
+    "android:sync": "npm run build && cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/core": "8.5.3",
+    "@capacitor/filesystem": "8.1.5",
+    "@capacitor/local-notifications": "8.3.1",
+    "@capacitor/share": "8.0.3",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.3",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "typescript": "5.9.3",
+    "vite": "8.0.13"
+  }
 }

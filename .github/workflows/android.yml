@@ -1,0 +1,48 @@
+name: Build signed Android app
+on:
+  push:
+    branches: ['mobile/**']
+    paths: ['app/**','lib/**','android/**','main.tsx','package*.json','capacitor.config.ts','.github/workflows/android.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
+      - run: npx cap sync android
+      - name: Restore private signing material
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64"
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/ci-release.p12
+      - name: Build release APK
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        working-directory: android
+        run: bash ./gradlew --no-daemon assembleRelease
+      - name: Verify signed APK and bundled offline page
+        run: |
+          SIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -n 1)
+          "$SIGNER" verify --verbose --print-certs android/app/build/outputs/apk/release/app-release.apk | tee signing-verification.txt
+          grep -F "$(cat android/release-cert.sha256)" signing-verification.txt
+          unzip -l android/app/build/outputs/apk/release/app-release.apk | grep 'assets/public/index.html'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xianxue-yidian-android
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error

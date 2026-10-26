@@ -19,5 +19,5 @@ for(const subject of ['english','math','python','other'])for(const minutes of [5
  for(const r of plan.resources){if(r.url){assert.ok(allowed.has(new URL(r.url).hostname));assert.equal(new URL(r.url).protocol,'https:');assert.equal(r.checkedAt,'2026-10-22')}}
  const markdown=planMarkdown(plan,{...p,subject});assert.ok(markdown.includes('怎样算有进展'));assert.ok(markdown.includes('准备：'));for(const r of plan.resources)if(r.url)assert.ok(markdown.includes(r.url));
 }
-const app=readFileSync('app/learning-app.tsx','utf8');assert.ok(app.includes('<MaterialQuestions'));assert.ok(app.includes('<LearningKit'));assert.ok(app.includes('task-stage'));
+const app=readFileSync('app/learning-app.tsx','utf8');assert.ok(app.includes('<MaterialQuestions'));assert.ok(app.includes('<LearningKit'));assert.ok(app.includes('<DailyCards'));
 console.log('Material checks passed: editions preserved, unknown scope honest, calculus topic selection, Python course/tools, small budgets, existing materials respected, vetted URLs and complete Markdown export.');
