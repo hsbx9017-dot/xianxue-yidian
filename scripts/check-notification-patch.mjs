@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+const patch=()=>execFileSync(process.execPath,['scripts/patch-local-notifications.mjs'],{encoding:'utf8'});
+patch();
+const file='node_modules/@capacitor/local-notifications/android/src/main/kotlin/com/capacitorjs/plugins/localnotifications/TimedNotificationPublisher.kt';
+const before=readFileSync(file,'utf8');patch();assert.equal(readFileSync(file,'utf8'),before,'Patch must be idempotent');
+for(const alarm of ['setExactAndAllowWhileIdle','setAndAllowWhileIdle','setExact','set'])assert.ok(before.includes(`alarmManager.${alarm}(AlarmManager.RTC_WAKEUP, trigger, pendingIntent)`));
+assert.ok(!before.includes('alarmManager.setExact(AlarmManager.RTC,'));
+assert.ok(before.includes('getJSONObject("schedule")?.optBoolean("allowWhileIdle", false)'));
+assert.ok(before.indexOf('notificationManager.notify(id, notification)')<before.indexOf('XIANXUE_TRIGGER_LOG'));
+const native=readFileSync('android/app/src/main/java/com/xianxue/yidian/DeviceToolsPlugin.java','utf8');
+assert.ok(native.includes('AlarmClock.EXTRA_SKIP_UI, false'));assert.ok(native.includes('ALLOWED_APPS.contains(id)'));assert.ok(!native.includes('QUERY_ALL_PACKAGES'));assert.ok(!native.includes('WRITE_SETTINGS'));
+console.log('Repeat notification regression guards passed: all repeat alarm paths wake the device, idle preference preserved, local post evidence, explicit system-clock UI and scoped app launcher. Native device delivery still requires MIUI testing.');

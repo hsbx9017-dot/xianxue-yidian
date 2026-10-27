@@ -1,6 +1,6 @@
 {
   "name": "xianxue-yidian",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,9 +8,9 @@
   },
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build",
+    "build": "node scripts/patch-local-notifications.mjs && tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node scripts/check-planner.mjs && node scripts/check-ai.mjs && node scripts/check-materials.mjs && node scripts/check-history.mjs && node scripts/check-feedback.mjs && node scripts/check-daily.mjs && node scripts/check-device.mjs",
+    "test": "node scripts/check-planner.mjs && node scripts/check-ai.mjs && node scripts/check-materials.mjs && node scripts/check-history.mjs && node scripts/check-feedback.mjs && node scripts/check-daily.mjs && node scripts/check-device.mjs && node scripts/check-learning-apps.mjs && node scripts/check-notification-patch.mjs",
     "test:feedback-db": "node scripts/check-feedback-db.mjs",
     "admin": "node scripts/feedback-admin.mjs",
     "pages:prepare": "node scripts/prepare-pages.mjs",

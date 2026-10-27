@@ -2,7 +2,7 @@ name: Build signed Android app
 on:
   push:
     branches: ['mobile/**']
-    paths: ['app/**','lib/**','android/**','main.tsx','package*.json','capacitor.config.ts','.github/workflows/android.yml']
+    paths: ['app/**','lib/**','android/**','main.tsx','package*.json','capacitor.config.ts','scripts/**','.github/workflows/android.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -34,7 +34,7 @@ jobs:
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         working-directory: android
-        run: bash ./gradlew --no-daemon assembleRelease
+        run: bash ./gradlew --no-daemon :app:testDebugUnitTest :app:assembleRelease
       - name: Verify signed APK and bundled offline page
         run: |
           SIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -n 1)

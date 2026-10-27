@@ -2,9 +2,22 @@
 
 帮助大学生把学习愿望变成可以开始的每日动作，按记录协商调整后续安排。
 
-## 安卓 App 1.1.0
+## 安卓 App 1.1.1
 
-安装包入口：https://hsbx9017-dot.github.io/xianxue-yidian/downloads/xianxue-yidian-1.1.0.apk 。支持 Android 7及以上；需要可正常运行现代网页界面的 Android System WebView。安装后有独立图标与窗口，页面资源随安装包提供，查看计划、规则生成、执行步骤、每日反馈和学习档案不依赖网页在线；DeepSeek生成、在线课程和提交建议仍需网络。
+安装包入口：https://hsbx9017-dot.github.io/xianxue-yidian/downloads/xianxue-yidian-1.1.1.apk 。支持 Android 7及以上；需要可正常运行现代网页界面的 Android System WebView。安装后有独立图标与窗口，页面资源随安装包提供，查看计划、规则生成、执行步骤、每日反馈和学习档案不依赖网页在线；DeepSeek生成、在线课程和提交建议仍需网络。
+
+### 1.1.1：手机软件与通知修复
+
+- 顶部“免费软件”和计划材料上方增加 AnkiDroid、GeoGebra 计算器套件、Termux + Python。每个入口有免费范围、官方来源、首次操作、离线条件和可留下的结果，不要求全装。安卓可打开已安装的对应软件；未安装会明确报错。
+- Python运行方式新增“安卓手机”，保存和备份保留选择；使用Termux时给出首次安装Python与后续运行步骤，不推荐安卓安装桌面Thonny。
+- 修复固定版本 Capacitor Local Notifications 8.3.1 重复通知后续调度丢失RTC_WAKEUP与allowWhileIdle的问题。构建前应用版本锁定、幂等的窄补丁；依赖改变时要求重新核对。Android JVM回归测试直接执行通知接收器，检查四种模式下一次闹钟均会唤醒CPU。该测试不能代表MIUI真机隔夜测试。
+- 应用启动或返回前台时，在已开启提醒、通知权限允许的前提下重排下一次提醒；不代替用户打开权限。
+- 新增通知分类、闹钟权限、省电状态、自启动的诊断和设置入口。MIUI自启动不能可靠读取，因此不显示虚构的“已开启”。
+- 系统发布与用户确认收到分别记录，仅保存在本机。排程登记和系统notify调用均不能保证人看见通知；旧版本没有诊断时不补造历史。
+- 可打开系统时钟，带入时间和每天重复参数；保留系统界面供用户核对、保存。不能读取时钟是否真正保存成功，也不能在关闭普通通知时自动取消时钟里的独立闹钟。
+- 升级保留com.xianxue.yidian与原签名，versionCode为111；直接覆盖安装，更新前可备份，不要先卸载。
+
+软件来源核对日期2026-10-27：Anki官方 https://apps.ankiweb.net/ 、GeoGebra官方 https://www.geogebra.org/download 、Termux官方 https://termux.dev/en/ 。APK从开发者或其认可的F-Droid入口获取，不复制分发第三方安装包，不提供付费会员功能。
 
 ### 手机上怎么开始
 

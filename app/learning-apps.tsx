@@ -1,0 +1,12 @@
+import {useState} from 'react';
+import type {Subject} from '../lib/planner';
+import {learningApps,softwareCheckedAt,softwareFor} from '../lib/learning-apps';
+import {isAndroidApp,openLearningApp} from '../lib/device';
+
+export function LearningApps({subject,all=false}:{subject?:Subject;all?:boolean}){
+ const [selected,setSelected]=useState<Subject|'all'>(all?'all':subject||'all'),[message,setMessage]=useState('');
+ const apps=selected==='all'?learningApps:softwareFor(selected);
+ async function open(id:string){try{await openLearningApp(id);setMessage('已尝试打开；在软件里做完后，回到这里记录。')}catch(e){setMessage(e instanceof Error?e.message:'无法打开，请先安装或从桌面进入。')}}
+ async function copy(text:string){try{await navigator.clipboard.writeText(text);setMessage('已复制，在对应软件中粘贴即可。')}catch{setMessage('复制未成功，请长按下面文字复制。')}}
+ return <section className="learning-software" aria-label="手机免费学习软件"><span className="eyebrow small">手机学习，少来回开网页</span><h2>选一个软件，直接开始。</h2><p>这三个工具的上述学习用途免费。软件是执行工具，教材和课程仍按你的计划使用；不必全装，准备时间算在当天预算内。</p><div className="software-tabs">{([['all','全部'],['english','英语'],['math','高数'],['python','Python']] as const).map(([id,label])=><button key={id} type="button" aria-pressed={selected===id} onClick={()=>setSelected(id)}>{label}</button>)}</div><div className="software-grid">{apps.map(a=><article className="software-card" key={a.id}><span className="resource-role">{a.purpose}</span><h3>{a.name}</h3><p className="software-free">{a.free}</p><div className="software-actions">{isAndroidApp()&&<button className="button primary" onClick={()=>void open(a.packageId)}>打开已安装的软件</button>}<a className="button secondary" href={a.download} target="_blank" rel="noreferrer">官方下载入口 ↗</a><button className="inline-link" onClick={()=>void copy(a.name)}>复制软件名</button></div><details><summary>第一次怎么用 · 跟着做</summary><ol>{a.steps.map(s=><li key={s}>{s}</li>)}</ol>{a.command&&<div className="software-command"><code>{a.command}</code><button type="button" onClick={()=>void copy(a.command!)}>复制安装命令</button></div>}<p><strong>今天留下：</strong>{a.result}</p></details><small>{a.offline}</small><a className="software-source" href={a.source} target="_blank" rel="noreferrer">来源与费用说明 ↗ · {softwareCheckedAt} 核对</a></article>)}</div><p className="mode-note">下载入口需要联网，有的地区可能打不开。正规手机商店没有时用这里的官方入口；找不到就先沿用已有工具，不下载付费词库或来历不明的修改版。软件里的学习记录不会自动回传，结束后在本工具里如实记录。</p>{message&&<p className="success-note" role="status">{message}</p>}</section>;
+}

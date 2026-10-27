@@ -39,4 +39,10 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <queries>
+        <package android:name="com.ichi2.anki" />
+        <package android:name="org.geogebra.android.calculator.suite" />
+        <package android:name="com.termux" />
+    </queries>
 </manifest>
