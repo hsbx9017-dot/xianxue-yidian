@@ -1,0 +1,13 @@
+{
+  "appId": "com.xianxue.yidian",
+  "version": "1.1.1",
+  "versionCode": 111,
+  "minSdk": 24,
+  "file": "xianxue-yidian-1.1.1.apk",
+  "sizeBytes": 3434115,
+  "sha256": "a2c6d538d29409e44a7dda00e23763cbf8a831e4a0c5fcef87a1f5246beea43d",
+  "signerSha256": "dedd24bb6089def3ba2f6c28f483ab61c782cbfd323dd1a205f70b5814932490",
+  "sourceCommit": "b5b2e2fa4e20eeb7122d623bc6b82da5deb21587",
+  "buildRun": "https://github.com/hsbx9017-dot/xianxue-yidian/actions/runs/40474309020",
+  "verification": "Signed release built with original certificate, apksigner verified. Android JVM tests execute the repeat receiver across exact/approximate and idle/non-idle modes. Bundled frontend matches production output with text line-ending normalization. Physical MIUI overnight delivery is not verified."
+}
