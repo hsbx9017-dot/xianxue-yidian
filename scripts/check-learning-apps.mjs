@@ -6,7 +6,7 @@ const {learningApps,softwareFor,softwareMarkdown}=await import(url(readFileSync(
 assert.equal(new Set(learningApps.map(a=>a.packageId)).size,3);
 for(const subject of ['english','math','python']){
  const apps=softwareFor(subject);assert.equal(apps.length,1);
- const a=apps[0];assert.match(a.free,/免费/);assert.ok(a.steps.length>=3);assert.ok(a.result.length>10);assert.equal(new URL(a.download).protocol,'https:');assert.ok(softwareMarkdown(subject).includes(a.download));
+ const a=apps[0];assert.match(a.free,/免费/);assert.ok(a.steps.length>=3);assert.ok(a.result.length>10);assert.equal(new URL(a.download).protocol,'https:');assert.equal(new URL(a.installer).protocol,'https:');assert.ok(softwareMarkdown(subject).includes(a.download));
 }
 const {makePlan,defaultProfile}=await import(url(readFileSync('lib/planner.ts','utf8')));
 const phone={...defaultProfile,subject:'python',pythonDevice:'phone',startDate:'2026-10-27'};
